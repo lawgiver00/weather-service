@@ -13,7 +13,7 @@ class OpenWeatherMap
         try{
             $client = new \GuzzleHttp\Client();
             $response = $client->request('GET', 'http://api.openweathermap.org/data/2.5/weather?zip='.$zip.'&appid=acf384f457dc20241492b13dac21c8a9');
-            return($response->getBody());
+            return((string)$response->getBody());
         } catch(ClientException $e){
             return false;
         }

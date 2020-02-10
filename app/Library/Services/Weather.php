@@ -25,8 +25,8 @@ class Weather implements WeatherServiceInterface
         if(!preg_match("/^[0-9]{5}$/", $zip)){
             return response()->json(['message' => "Incorrect zip code format"])->setStatusCode(400);
         } else {
-            if(Cache::get("weather-".$zip)){
-                return $this->formatWeather(Cache::get("weather-".$zip));
+            if(Cache::get("weather".$zip)){
+                return $this->formatWeather(Cache::get("weather".$zip));
             } else {
                 return $this->getNewWeather($zip);
             }
@@ -34,8 +34,9 @@ class Weather implements WeatherServiceInterface
     }
 
     private function getNewWeather($zip){
+
         if($weather = OpenWeatherMap::getWeather($zip)){
-            Cache::put('weather-'.$zip, $weather, 15);
+            Cache::put('weather'.$zip, $weather, 15);
             return $this->formatWeather($weather);
         } else {
             return response()->json(['message' => "An error occurred with your request"])->setStatusCode(400);
