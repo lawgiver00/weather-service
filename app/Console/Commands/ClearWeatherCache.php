@@ -38,6 +38,6 @@ class ClearWeatherCache extends Command
      */
     public function handle()
     {
-        Cache::forget('weather');
+        Cache::flush();
     }
 }
