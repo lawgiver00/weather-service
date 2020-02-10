@@ -34,9 +34,12 @@ class Weather implements WeatherServiceInterface
     }
 
     private function getNewWeather($zip){
-        $weather = OpenWeatherMap::getWeather($zip);
-        Cache::put('weather', $weather, 15);
-        return $this->formatWeather($weather);
+        if($weather = OpenWeatherMap::getWeather($zip)){
+            Cache::put('weather', $weather, 15);
+            return $this->formatWeather($weather);
+        } else {
+            return response()->json(['message' => "An error occurred with your request"])->setStatusCode(400);
+        }
     }
 
     private function formatWeather($weather){
