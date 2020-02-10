@@ -26,7 +26,7 @@ class Weather implements WeatherServiceInterface
             return response()->json(['message' => "Incorrect zip code format"])->setStatusCode(400);
         } else {
             if(Cache::get("weather-".$zip)){
-                return $this->formatWeather(Cache::get("weather"));
+                return $this->formatWeather(Cache::get("weather-".$zip));
             } else {
                 return $this->getNewWeather($zip);
             }
